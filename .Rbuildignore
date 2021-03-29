@@ -1,2 +1,4 @@
-^y2butler\.Rproj$
+^.*\.Rproj$
 ^\.Rproj\.user$
+^cran-comments\.md$
+^README\.Rmd$
