@@ -41,9 +41,11 @@ topline <- function(
   # Closed ended questions
   frequencies <- run_combine_freqs(dataset, {{weight_var}}, PROJECT_NAME)
 
-
   # Open ended questions
   run_freqs_oe(dataset, PROJECT_NAME)
+
+  # Check missing vars
+  names_checker(dataset, {{weight_var}})
 }
 
 
@@ -154,5 +156,44 @@ run_freqs_oe <- function(dataset, PROJECT_NAME) {
     )
   )
 
+}
+
+
+# Check var names
+names_checker <- function(dataset, weight_var) {
+  ACTUAL_NAMES <- orderlabel::taking_names(dataset)
+
+  QUALTRICS_STANDARD_VARS <- c(
+    'StartDate|EndDate|Status|IPAddress|Progress|Duration__in_seconds_|Finished|RecordedDate|ResponseId|RecipientLastName|RecipientFirstName|RecipientEmail|ExternalReference|LocationLatitude|LocationLongitude|DistributionChannel|UserLanguage|ExternalReference|term|gc|year_born_numeric|age_numeric|census_age_groups|lon|lat'
+  )
+  weight_quoed <- rlang::enquo(weight_var)
+  weight_char <- rlang::quo_name(weight_quoed)
+
+  leftover_vars <- ACTUAL_NAMES %>%
+    dplyr::filter(
+      !stringr::str_detect(.data$name, QUALTRICS_STANDARD_VARS),
+      !stringr::str_detect(.data$name, '^s_'),
+      !stringr::str_detect(.data$name, '^md_'),
+      !stringr::str_detect(.data$name, '^m_'),
+      !stringr::str_detect(.data$name, '^cs_'),
+      !stringr::str_detect(.data$name, '^sl_'),
+      !stringr::str_detect(.data$name, '^n_'),
+      !stringr::str_detect(.data$name, '^r_'),
+      !stringr::str_detect(.data$name, '^oe_'),
+      !stringr::str_detect(.data$name, 'TEXT$'),
+      !stringr::str_detect(.data$name, weight_char)
+    ) %>%
+    dplyr::select(.data$name) %>%
+    purrr::as_vector()
+  leftovers_1string <- paste(leftover_vars, collapse = ', ')
+
+  if (length(leftover_vars) >= 1) {
+    warning(
+      stringr::str_c(
+      "The following variables from your dataset were not included in the topline:\n",
+      leftovers_1string
+      )
+    )
+  }
 }
 
