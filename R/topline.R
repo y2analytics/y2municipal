@@ -10,39 +10,40 @@
 #'  "n_" for numeric,
 #'  "r_" for ranked,
 #'  "md_" for max diff.
+#'  You need to be using y2coding conventions and have a DATA_PATH in your R environment because topline() will save your new files to that folder
 #'
 #' @keywords freqs topline
 #' @param dataset A dataframe for which you want to create a topline
-#' @param file_name_topline The filename you want to give your topline freqs table csv. Will be saved into your DATA_PATH
-#' @param file_name_appendix The filename you want to give your open ends appendix csv. Will be saved into your DATA_PATH
 #' @param weight_var DEFAULT = weights. Can be set to NULL if the data has no weights
 #' @export
-#' @return A frequencies table including all questions with the prefixes mentioned above.
+#' @return 2 tables saved out into your DATA_PATH folder
+#' 1) A csv of frequencies for the topline called "data for topline, *project name*"
+#' 2) A csv of open ends for the appendix called "data for appendix, *project name*"
 #' @examples
+#' \dontrun{
+#' DATA_PATH <- '~/Desktop/'
+#' topline(municipal_data)
+#'}
 #'
 
 topline <- function(
   dataset,
-  file_name_topline,
-  file_name_appendix,
   weight_var = weights
 ) {
 
+  # Pre- work
   weights <- NULL
+  PROJECT_NAME <- stringr::str_to_lower(DATA_PATH) %>%
+    stringr::str_remove('/data/') %>%
+    stringr::str_remove('/data') %>%
+    stringr::str_remove('.*/')
 
   # Closed ended questions
-  frequencies <- run_combine_freqs(dataset, {{weight_var}})
-  readr::write_csv(
-    frequencies,
-    stringr::str_c(
-      DATA_PATH,
-      file_name_topline,
-      '.csv'
-    )
-  )
+  frequencies <- run_combine_freqs(dataset, {{weight_var}}, PROJECT_NAME)
+
 
   # Open ended questions
-  run_freqs_oe(dataset, file_name_appendix)
+  run_freqs_oe(dataset, PROJECT_NAME)
 }
 
 
@@ -110,7 +111,8 @@ run_freq_n <- function(dataset, weight_var) {
 # combine all freqs
 run_combine_freqs <- function(
   dataset,
-  weight_var) {
+  weight_var,
+  PROJECT_NAME) {
     freqs_s <- run_freq_s(dataset, {{weight_var}})
     freqs_m <- run_freq_m(dataset, {{weight_var}})
     freqs_n <- run_freq_n(dataset, {{weight_var}})
@@ -120,11 +122,21 @@ run_combine_freqs <- function(
       freqs_m,
       freqs_n
     )
+
+    readr::write_csv(
+      frequencies,
+      stringr::str_c(
+        DATA_PATH,
+        'data for topline, ',
+        PROJECT_NAME,
+        '.csv'
+      )
+    )
 }
 
 
 # open ends: run_freqs_oe
-run_freqs_oe <- function(dataset, file_name_appendix) {
+run_freqs_oe <- function(dataset, PROJECT_NAME) {
   freqs_oe <- dataset %>%
     dplyr::select(
       tidyselect::starts_with('oe_'),
@@ -136,7 +148,8 @@ run_freqs_oe <- function(dataset, file_name_appendix) {
     freqs_oe,
     stringr::str_c(
       DATA_PATH,
-      file_name_appendix,
+      'data for appendix, ',
+      PROJECT_NAME,
       '.csv'
     )
   )

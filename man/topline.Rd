@@ -4,19 +4,19 @@
 \alias{topline}
 \title{Create all data for a topline}
 \usage{
-topline(dataset, file_name_topline, file_name_appendix, weight_var = weights)
+topline(dataset, weight_var = weights)
 }
 \arguments{
 \item{dataset}{A dataframe for which you want to create a topline}
 
-\item{file_name_topline}{The filename you want to give your topline freqs table csv. Will be saved into your DATA_PATH}
-
-\item{file_name_appendix}{The filename you want to give your open ends appendix csv. Will be saved into your DATA_PATH}
-
 \item{weight_var}{DEFAULT = weights. Can be set to NULL if the data has no weights}
 }
 \value{
-A frequencies table including all questions with the prefixes mentioned above.
+2 tables saved out into your DATA_PATH folder
+\enumerate{
+\item A csv of frequencies for the topline called "data for topline, \emph{project name}"
+\item A csv of open ends for the appendix called "data for appendix, \emph{project name}"
+}
 }
 \description{
 Use topline() to automate all the frequencies for a topline report. This function can only be used if your questions have the proper prefixes:
@@ -26,8 +26,13 @@ Use topline() to automate all the frequencies for a topline report. This functio
 "n_" for numeric,
 "r_" for ranked,
 "md_" for max diff.
+You need to be using y2coding conventions and have a DATA_PATH in your R environment because topline() will save your new files to that folder
 }
 \examples{
+\dontrun{
+DATA_PATH <- '~/Desktop/'
+topline(municipal_data)
+}
 
 }
 \keyword{freqs}
