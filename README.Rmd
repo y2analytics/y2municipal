@@ -24,11 +24,11 @@ knitr::opts_chunk$set(
 
 The goal of `y2municipal` is to quickly and easily go through the standard processes used in every municipal project of:
 
-1) cleaning the voter file: 
-2) weighting data: 
-3) creating a topline report: `freqs_wuw()`, `topline()`
-4) loading in data and y2 fonts: `read_data_names_fonts()`
-5) creating visualizations: 
+1) Clean the voter file: 
+2) Weight the data: 
+3) Create a topline report: `topline()` - uses freqs(unweighted_ns = TRUE under the hood)
+4) Load in data, y2 fonts, and create a names df: `read_data_names_fonts()`
+5) Create visualizations: 
 
 
 

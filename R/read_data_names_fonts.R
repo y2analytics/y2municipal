@@ -10,7 +10,8 @@
 #' @keywords read names font
 #' @param file_name The file name of your data. (e.g. 'my weighted data.rds')
 #' Using Y2 Analytics coding standards, you should have a DATA_PATH string in your environment specifying the path to your data file
-#' @param fonts3 A vector of 2-3 strings:
+#' @param fonts3 If you want flama as your font, don't touch this argument (flama must already be installed on your computer as well).
+#' Otherwise, it is a vector of 2-3 strings:
 #' 1) Font name (e.g., 'flama')
 #' 2) File name of regular style font (e.g., 'Flama-Medium.otf')
 #' 3) File name of bold style font (e.g., 'Flama-Bold.otf')
@@ -62,8 +63,10 @@ prep_data <- function(file_name) {
     responses <- haven::read_sav(stringr::str_c(DATA_PATH, file_name))
   } else if (stringr::str_detect(file_name, '.spss')) {
     responses <- haven::read_sav(stringr::str_c(DATA_PATH, file_name))
-  } else { # stringr::str_detect(data_file, '.xlsx')
+  } else if (stringr::str_detect(data_file, '.xlsx')) {
     responses <- readxl::read_xlsx(stringr::str_c(DATA_PATH, file_name))
+  } else {
+    stop('data type should be one of .csv; .rds; .sav; .spss; .xlsx')
   }
 }
 

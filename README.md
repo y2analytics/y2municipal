@@ -12,11 +12,11 @@ Overview
 
 The goal of `y2municipal` is to quickly and easily go through the standard processes used in every municipal project of:
 
-1.  cleaning the voter file:
-2.  weighting data:
-3.  creating a topline report: `freqs_wuw()`, `topline()`
-4.  loading in data and y2 fonts: `read_data_names_fonts()`
-5.  creating visualizations:
+1.  Clean the voter file:
+2.  Weight the data:
+3.  Create a topline report: `topline()` - uses freqs(unweighted\_ns = TRUE under the hood)
+4.  Load in data, y2 fonts, and create a names df: `read_data_names_fonts()`
+5.  Create visualizations:
 
 Installation
 ------------
@@ -50,11 +50,6 @@ library(dplyr)
 library(y2clerk)
 library(orderlabel)
 library(y2municipal)
-#> 
-#> Attaching package: 'y2municipal'
-#> The following object is masked from 'package:orderlabel':
-#> 
-#>     topline
 
 # Run a weighted frequencies with unweighted ns
 frequencies <- municipal_data %>%
@@ -63,6 +58,8 @@ frequencies <- municipal_data %>%
 # Run a topline
 DATA_PATH <- '~/Desktop/'
 municipal_data %>% topline(weight_var = weights)
+#> Warning in names_checker(dataset, {: The following variables from your dataset were not included in the topline:
+#> d_yearborn
 ```
 
 Help

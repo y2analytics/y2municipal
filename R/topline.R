@@ -10,7 +10,7 @@
 #'  "n_" for numeric,
 #'  "r_" for ranked,
 #'  "md_" for max diff.
-#'  You need to be using y2coding conventions and have a DATA_PATH in your R environment because topline() will save your new files to that folder
+#'  You need to be using y2 coding conventions and have a DATA_PATH in your R environment because topline() will save your new files to that folder
 #'
 #' @keywords freqs topline
 #' @param dataset A dataframe for which you want to create a topline
@@ -61,10 +61,11 @@ freqs_s <- dataset %>%
     -tidyselect::ends_with('_TEXT'),
     {{ weight_var }}
   ) %>%
-  freqs_wuw(
+  y2clerk::freqs(
     prompt = TRUE,
     wt = {{ weight_var }},
-    nas = FALSE
+    nas = FALSE,
+    unweighted_ns = TRUE
   )
 }
 
@@ -77,9 +78,10 @@ freqs_m <- dataset %>%
     -tidyselect::ends_with('_TEXT'),
     {{ weight_var }}
   ) %>%
-  freqs_wuw(
+  y2clerk::freqs(
     prompt = TRUE,
-    wt = {{ weight_var }}
+    wt = {{ weight_var }},
+    unweighted_ns = TRUE
   ) %>%
   stats::na.omit()
 }
@@ -101,11 +103,12 @@ run_freq_n <- function(dataset, weight_var) {
         as.character() %>%
         as.numeric()
       ) %>%
-    freqs_wuw(
+    y2clerk::freqs(
       prompt = TRUE,
       stat = 'mean',
       wt = {{ weight_var }},
-      nas = FALSE
+      nas = FALSE,
+      unweighted_ns = TRUE
     )
 }
 
