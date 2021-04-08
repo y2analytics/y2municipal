@@ -63,7 +63,7 @@ prep_data <- function(file_name) {
     responses <- haven::read_sav(stringr::str_c(DATA_PATH, file_name))
   } else if (stringr::str_detect(file_name, '.spss')) {
     responses <- haven::read_sav(stringr::str_c(DATA_PATH, file_name))
-  } else if (stringr::str_detect(data_file, '.xlsx')) {
+  } else if (stringr::str_detect(file_name, '.xlsx')) {
     responses <- readxl::read_xlsx(stringr::str_c(DATA_PATH, file_name))
   } else {
     stop('data type should be one of .csv; .rds; .sav; .spss; .xlsx')

@@ -13,7 +13,8 @@ read_data_names_fonts(
 \item{file_name}{The file name of your data. (e.g. 'my weighted data.rds')
 Using Y2 Analytics coding standards, you should have a DATA_PATH string in your environment specifying the path to your data file}
 
-\item{fonts3}{A vector of 2-3 strings:
+\item{fonts3}{If you want flama as your font, don't touch this argument (flama must already be installed on your computer as well).
+Otherwise, it is a vector of 2-3 strings:
 \enumerate{
 \item Font name (e.g., 'flama')
 \item File name of regular style font (e.g., 'Flama-Medium.otf')

@@ -26,7 +26,7 @@ Use topline() to automate all the frequencies for a topline report. This functio
 "n_" for numeric,
 "r_" for ranked,
 "md_" for max diff.
-You need to be using y2coding conventions and have a DATA_PATH in your R environment because topline() will save your new files to that folder
+You need to be using y2 coding conventions and have a DATA_PATH in your R environment because topline() will save your new files to that folder
 }
 \examples{
 \dontrun{
