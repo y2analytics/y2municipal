@@ -2,7 +2,9 @@
 % Please edit documentation in R/methodology.R
 \name{methodology}
 \alias{methodology}
+\alias{jarvis_sommelier_the_survey}
 \title{Get info on survey methodology}
+\usage{
 methodology(dataset, population)
 
 jarvis_sommelier_the_survey(dataset, population)
