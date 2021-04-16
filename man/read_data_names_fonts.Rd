@@ -2,9 +2,15 @@
 % Please edit documentation in R/read_data_names_fonts.R
 \name{read_data_names_fonts}
 \alias{read_data_names_fonts}
+\alias{jarvis_set_the_table}
 \title{prep data, names table, and fonts}
 \usage{
 read_data_names_fonts(
+  file_name,
+  fonts3 = c("flama", "Flama-Medium.otf", "Flama-Bold.otf")
+)
+
+jarvis_set_the_table(
   file_name,
   fonts3 = c("flama", "Flama-Medium.otf", "Flama-Bold.otf")
 )

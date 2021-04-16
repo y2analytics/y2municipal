@@ -49,6 +49,9 @@ read_data_names_fonts <- function(
   invisible(list2env(data_names, envir = .GlobalEnv))
 }
 
+#' @rdname read_data_names_fonts
+#' @export
+jarvis_set_the_table <- read_data_names_fonts
 
 # Private functions -------------------------------------------------------
 

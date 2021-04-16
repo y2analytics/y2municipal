@@ -4,12 +4,12 @@
 #' Create all data for a topline
 #'
 #' Use topline() to automate all the frequencies for a topline report. This function can only be used if your questions have the proper prefixes:
-#'  "s_" for single select,
-#'  "m_" for multiple select,
-#'  "oe_" for open ends,
-#'  "n_" for numeric,
-#'  "r_" for ranked,
-#'  "md_" for max diff.
+#'  1. "s_" for single select,
+#'  2. "m_" for multiple select,
+#'  3. "oe_" for open ends,
+#'  4. "n_" for numeric,
+#'  4. "r_" for ranked,
+#'  5. "md_" for max diff.
 #'  You need to be using y2 coding conventions and have a DATA_PATH in your R environment because topline() will save your new files to that folder
 #'
 #' @keywords freqs topline
@@ -48,6 +48,9 @@ topline <- function(
   names_checker(dataset, {{weight_var}})
 }
 
+#' @rdname topline
+#' @export
+jarvis_top_us_all_off <- topline
 
 
 # Private functions -------------------------------------------------------

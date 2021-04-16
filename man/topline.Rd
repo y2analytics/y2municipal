@@ -2,9 +2,12 @@
 % Please edit documentation in R/topline.R
 \name{topline}
 \alias{topline}
+\alias{jarvis_top_us_all_off}
 \title{Create all data for a topline}
 \usage{
 topline(dataset, weight_var = weights)
+
+jarvis_top_us_all_off(dataset, weight_var = weights)
 }
 \arguments{
 \item{dataset}{A dataframe for which you want to create a topline}
@@ -20,13 +23,15 @@ topline(dataset, weight_var = weights)
 }
 \description{
 Use topline() to automate all the frequencies for a topline report. This function can only be used if your questions have the proper prefixes:
-"s_" for single select,
-"m_" for multiple select,
-"oe_" for open ends,
-"n_" for numeric,
-"r_" for ranked,
-"md_" for max diff.
+\enumerate{
+\item "s_" for single select,
+\item "m_" for multiple select,
+\item "oe_" for open ends,
+\item "n_" for numeric,
+\item "r_" for ranked,
+\item "md_" for max diff.
 You need to be using y2 coding conventions and have a DATA_PATH in your R environment because topline() will save your new files to that folder
+}
 }
 \examples{
 \dontrun{
