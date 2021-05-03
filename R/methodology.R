@@ -55,7 +55,7 @@ get_moe <- function(dataset, population) {
   nadj <- (population - 1) * sample_size / (population - sample_size)
 
   moe <- ((1.96 *.5) / sqrt(nadj)) %>% round(3)
-  moe_char <- stringr::str_c('MOE: +/- ', moe * 100)
+  moe_char <- stringr::str_c('MOE: +/- ', sprintf("%0.2f", moe * 100))
 }
 
 

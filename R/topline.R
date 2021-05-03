@@ -38,6 +38,9 @@ topline <- function(
     stringr::str_remove('/data') %>%
     stringr::str_remove('.*/')
 
+  # Make sure all vars available
+  dataset <- create_dummy_vars(dataset)
+
   # Closed ended questions
   frequencies <- run_combine_freqs(dataset, {{weight_var}}, PROJECT_NAME)
 
@@ -54,6 +57,17 @@ jarvis_top_us_all_off <- topline
 
 
 # Private functions -------------------------------------------------------
+
+# create dummies
+create_dummy_vars <- function(dataset) {
+  dataset <- dataset %>%
+    dplyr::mutate(
+      s_xyz123 = NA_character_,
+      m_xyz123 = NA_character_,
+      n_xyz123 = NA_real_,
+      oe_xyz123 = NA_character_
+    )
+}
 
 # single select: run_freq_s
 run_freq_s <- function(dataset, weight_var) {
@@ -112,7 +126,8 @@ run_freq_n <- function(dataset, weight_var) {
       wt = {{ weight_var }},
       nas = FALSE,
       unweighted_ns = TRUE
-    )
+    ) %>%
+    dplyr::filter(.data$variable != 'n_xyz123')
 }
 
 
