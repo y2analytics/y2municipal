@@ -62,8 +62,8 @@ get_moe <- function(dataset, population) {
 get_field_dates <- function(dataset) {
   start_month <- min(dataset$StartDate) %>% lubridate::month(label = TRUE)
   start_day <- min(dataset$StartDate) %>% lubridate::day()
-  end_month <- min(dataset$EndDate) %>% lubridate::month(label = TRUE)
-  end_day <- min(dataset$EndDate) %>% lubridate::day()
+  end_month <- max(dataset$EndDate) %>% lubridate::month(label = TRUE)
+  end_day <- max(dataset$EndDate) %>% lubridate::day()
   field_dates_char <- stringr::str_c(
     "Fielded:",
     start_month,
