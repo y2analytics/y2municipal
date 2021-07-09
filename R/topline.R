@@ -8,8 +8,8 @@
 #'  2. "m_" for multiple select,
 #'  3. "oe_" for open ends,
 #'  4. "n_" for numeric,
-#'  4. "r_" for ranked,
-#'  5. "md_" for max diff.
+#'  5. "r_" for ranked,
+#'  6. "md_" for max diff.
 #'  You need to be using y2 coding conventions and have a DATA_PATH in your R environment because topline() will save your new files to that folder
 #'
 #' @keywords freqs topline
