@@ -74,7 +74,6 @@ run_freq_s <- function(dataset, weight_var) {
 freqs_s <- dataset %>%
   dplyr::select(
     tidyselect::starts_with('s_'),
-    tidyselect::starts_with('md_'),
     -tidyselect::ends_with('_TEXT'),
     {{ weight_var }}
   ) %>%
@@ -92,6 +91,7 @@ run_freq_m <- function(dataset, weight_var) {
 freqs_m <- dataset %>%
   dplyr::select(
     tidyselect::starts_with('m_'),
+    tidyselect::starts_with('md_'),
     -tidyselect::ends_with('_TEXT'),
     {{ weight_var }}
   ) %>%
@@ -106,7 +106,7 @@ freqs_m <- dataset %>%
 
 # numeric questions: run_freq_n
 run_freq_n <- function(dataset, weight_var) {
-  freqs_m <- dataset %>%
+  freqs_n <- dataset %>%
     dplyr::select(
       tidyselect::starts_with('cs_'),
       tidyselect::starts_with('sl_'),

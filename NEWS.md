@@ -1,3 +1,8 @@
+# y2municipal 0.0.5
+## bug fixes
+* `topline()` - now categorizes max diff (md_) questions as multiple select. Needed to switch to multiple select instead of single select because NA category often still means respondent sees the question; they just haven't chosen it as top/bot.
+
+
 # y2municipal 0.0.3
 ## bug fixes
 * `methodology()`  - MOE now always shows 2 digits, even if both are 0 (e.g. MOE: +/- 9.00)
