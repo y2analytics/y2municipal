@@ -37,6 +37,11 @@ topline <- function(
     stringr::str_remove('/data/') %>%
     stringr::str_remove('/data') %>%
     stringr::str_remove('.*/')
+  if ( is.null(weight_var) ) {
+    dataset <- dataset %>%
+      dplyr::mutate(weights = 1)
+    weight_var <- as.symbol('weights')
+  }
 
   # Make sure all vars available
   dataset <- create_dummy_vars(dataset)
@@ -106,6 +111,21 @@ freqs_m <- dataset %>%
 
 # numeric questions: run_freq_n
 run_freq_n <- function(dataset, weight_var) {
+
+  labels_list <- dataset %>%
+    dplyr::select(
+      tidyselect::starts_with('cs_'),
+      tidyselect::starts_with('sl_'),
+      tidyselect::starts_with('n_'),
+      tidyselect::starts_with('r_'),
+      -tidyselect::ends_with('_TEXT'),
+    )
+  labels <- tibble::tibble(
+    prompt = labelled::var_label(labels_list) %>% as.character(),
+    label = .data$prompt,
+    variable = names(labels_list)
+  )
+
   freqs_n <- dataset %>%
     dplyr::select(
       tidyselect::starts_with('cs_'),
@@ -121,11 +141,21 @@ run_freq_n <- function(dataset, weight_var) {
         as.numeric()
       ) %>%
     y2clerk::freqs(
-      prompt = TRUE,
       stat = 'mean',
       wt = {{ weight_var }},
       nas = FALSE,
       unweighted_ns = TRUE
+    ) %>%
+    dplyr::select(-.data$label) %>%
+    dplyr::left_join(labels, by = 'variable') %>%
+    dplyr::mutate(
+      label = stringr::str_remove(.data$label, '.*\n'),
+      label = stringr::str_remove(.data$label, '.*- '),
+      label = stringr::str_trim(.data$label)
+    ) %>%
+    dplyr::relocate(
+      .data$label,
+      .after = .data$value
     ) %>%
     dplyr::filter(.data$variable != 'n_xyz123')
 }

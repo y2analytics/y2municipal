@@ -1,3 +1,10 @@
+# y2municipal 0.0.6
+## new features
+* `topline()` - now adds in prompt/label for numeric/ranked questions. 
+## bug fixes
+* `topline()` - fixed a bug where topline() wouldn't run without a weight_var.
+
+
 # y2municipal 0.0.5
 ## bug fixes
 * `topline()` - now categorizes max diff (md_) questions as multiple select. Needed to switch to multiple select instead of single select because NA category often still means respondent sees the question; they just haven't chosen it as top/bot.
