@@ -1,7 +1,7 @@
 Type: Package
 Package: y2municipal
 Title: Prepare your municipal data
-Version: 0.0.6
+Version: 0.0.7
 Authors@R: c(
     person('Nick', 'Moffitt', email = 'nickmoffitt@y2analytics.com', role = c('aut', 'cre')),
     person('Danny', 'Cowser', email = 'danny@y2analytics.com', role = 'aut'),

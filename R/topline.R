@@ -100,12 +100,11 @@ freqs_m <- dataset %>%
     -tidyselect::ends_with('_TEXT'),
     {{ weight_var }}
   ) %>%
-  y2clerk::freqs(
+  y2clerk::multi_freqs(
     prompt = TRUE,
     wt = {{ weight_var }},
     unweighted_ns = TRUE
-  ) %>%
-  stats::na.omit()
+  )
 }
 
 

@@ -1,3 +1,8 @@
+# y2municipal 0.0.7
+## new features
+* `topline()` - incorporated `multi_freqs` from `y2clerk` package, so now all multiple answer and max diff questions will be automatically filtered to only those who answered the question
+
+
 # y2municipal 0.0.6
 ## new features
 * `topline()` - now adds in prompt/label for numeric/ranked questions. 
