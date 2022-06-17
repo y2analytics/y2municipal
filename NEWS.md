@@ -1,3 +1,8 @@
+# y2municipal 0.1.0
+## bug fixes
+* `topline()` - fixed a bug where topline() wouldn't run.
+
+
 # y2municipal 0.0.6
 ## new features
 * `topline()` - now adds in prompt/label for numeric/ranked questions. 

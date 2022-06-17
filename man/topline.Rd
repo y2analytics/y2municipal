@@ -5,14 +5,14 @@
 \alias{jarvis_top_us_all_off}
 \title{Create all data for a topline}
 \usage{
-topline(dataset, weight_var = weights)
+topline(dataset, weight_var)
 
-jarvis_top_us_all_off(dataset, weight_var = weights)
+jarvis_top_us_all_off(dataset, weight_var)
 }
 \arguments{
 \item{dataset}{A dataframe for which you want to create a topline}
 
-\item{weight_var}{DEFAULT = weights. Can be set to NULL if the data has no weights}
+\item{weight_var}{Variable containing weights}
 }
 \value{
 2 tables saved out into your DATA_PATH folder

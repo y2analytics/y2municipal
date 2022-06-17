@@ -14,7 +14,7 @@
 #'
 #' @keywords freqs topline
 #' @param dataset A dataframe for which you want to create a topline
-#' @param weight_var DEFAULT = weights. Can be set to NULL if the data has no weights
+#' @param weight_var Variable containing weights
 #' @export
 #' @return 2 tables saved out into your DATA_PATH folder
 #' 1) A csv of frequencies for the topline called "data for topline, *project name*"
@@ -28,19 +28,30 @@
 
 topline <- function(
   dataset,
-  weight_var = weights
+  weight_var
 ) {
 
   # Pre- work
-  weights <- NULL
+
   PROJECT_NAME <- stringr::str_to_lower(DATA_PATH) %>%
     stringr::str_remove('/data/') %>%
     stringr::str_remove('/data') %>%
     stringr::str_remove('.*/')
-  if ( is.null(weight_var) ) {
+
+
+  # Make fake weights if no weights supplied
+  if ( dataset %>%
+       dplyr::select(
+         {{ weight_var }}
+       ) %>%
+       names() %>%
+       length == 0 ) {
+
     dataset <- dataset %>%
       dplyr::mutate(weights = 1)
+
     weight_var <- as.symbol('weights')
+
   }
 
   # Make sure all vars available
@@ -247,4 +258,3 @@ names_checker <- function(dataset, weight_var) {
     )
   }
 }
-
