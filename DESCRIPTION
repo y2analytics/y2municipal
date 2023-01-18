@@ -1,7 +1,7 @@
 Type: Package
 Package: y2municipal
 Title: Prepare your municipal data
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person('Nick', 'Moffitt', email = 'nickmoffitt@y2analytics.com', role = c('aut', 'cre')),
     person('Danny', 'Cowser', email = 'danny@y2analytics.com', role = 'aut'),
@@ -34,6 +34,6 @@ Imports:
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Depends: 
     R (>= 2.10)

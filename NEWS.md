@@ -1,3 +1,8 @@
+# y2municipal 0.1.1
+## new functions
+* `topline()` split into two functions: `topline_appendix()` and `topline_freqs()`
+
+
 # y2municipal 0.1.0
 ## bug fixes
 * `topline()` - fixed a bug where topline() wouldn't run.

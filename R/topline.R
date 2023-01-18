@@ -27,8 +27,8 @@
 #'
 
 topline <- function(
-  dataset,
-  weight_var
+    dataset,
+    weight_var
 ) {
 
   # Pre- work
@@ -87,35 +87,35 @@ create_dummy_vars <- function(dataset) {
 
 # single select: run_freq_s
 run_freq_s <- function(dataset, weight_var) {
-freqs_s <- dataset %>%
-  dplyr::select(
-    tidyselect::starts_with('s_'),
-    -tidyselect::ends_with('_TEXT'),
-    {{ weight_var }}
-  ) %>%
-  y2clerk::freqs(
-    prompt = TRUE,
-    wt = {{ weight_var }},
-    nas = FALSE,
-    unweighted_ns = TRUE
-  )
+  freqs_s <- dataset %>%
+    dplyr::select(
+      tidyselect::starts_with('s_'),
+      -tidyselect::ends_with('_TEXT'),
+      {{ weight_var }}
+    ) %>%
+    y2clerk::freqs(
+      prompt = TRUE,
+      wt = {{ weight_var }},
+      nas = FALSE,
+      unweighted_ns = TRUE
+    )
 }
 
 
 # multi select: run_freq_m
 run_freq_m <- function(dataset, weight_var) {
-freqs_m <- dataset %>%
-  dplyr::select(
-    tidyselect::starts_with('m_'),
-    tidyselect::starts_with('md_'),
-    -tidyselect::ends_with('_TEXT'),
-    {{ weight_var }}
-  ) %>%
-  y2clerk::multi_freqs(
-    prompt = TRUE,
-    wt = {{ weight_var }},
-    unweighted_ns = TRUE
-  )
+  freqs_m <- dataset %>%
+    dplyr::select(
+      tidyselect::starts_with('m_'),
+      tidyselect::starts_with('md_'),
+      -tidyselect::ends_with('_TEXT'),
+      {{ weight_var }}
+    ) %>%
+    y2clerk::multi_freqs(
+      prompt = TRUE,
+      wt = {{ weight_var }},
+      unweighted_ns = TRUE
+    )
 }
 
 
@@ -149,7 +149,7 @@ run_freq_n <- function(dataset, weight_var) {
       ~forcats::as_factor(.) %>%
         as.character() %>%
         as.numeric()
-      ) %>%
+    ) %>%
     y2clerk::freqs(
       stat = 'mean',
       wt = {{ weight_var }},
@@ -173,28 +173,28 @@ run_freq_n <- function(dataset, weight_var) {
 
 # combine all freqs
 run_combine_freqs <- function(
-  dataset,
-  weight_var,
-  PROJECT_NAME) {
-    freqs_s <- run_freq_s(dataset, {{weight_var}})
-    freqs_m <- run_freq_m(dataset, {{weight_var}})
-    freqs_n <- run_freq_n(dataset, {{weight_var}})
+    dataset,
+    weight_var,
+    PROJECT_NAME) {
+  freqs_s <- run_freq_s(dataset, {{weight_var}})
+  freqs_m <- run_freq_m(dataset, {{weight_var}})
+  freqs_n <- run_freq_n(dataset, {{weight_var}})
 
-    frequencies <- dplyr::bind_rows(
-      freqs_s,
-      freqs_m,
-      freqs_n
-    )
+  frequencies <- dplyr::bind_rows(
+    freqs_s,
+    freqs_m,
+    freqs_n
+  )
 
-    readr::write_csv(
-      frequencies,
-      stringr::str_c(
-        DATA_PATH,
-        'data for topline, ',
-        PROJECT_NAME,
-        '.csv'
-      )
+  readr::write_csv(
+    frequencies,
+    stringr::str_c(
+      DATA_PATH,
+      'data for topline, ',
+      PROJECT_NAME,
+      '.csv'
     )
+  )
 }
 
 
@@ -251,8 +251,8 @@ names_checker <- function(dataset, weight_var) {
   if (length(leftover_vars) >= 1) {
     warning(
       stringr::str_c(
-      "The following variables from your dataset were not included in the topline:\n",
-      leftovers_1string
+        "The following variables from your dataset were not included in the topline:\n",
+        leftovers_1string
       )
     )
   }
