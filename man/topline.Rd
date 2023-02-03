@@ -22,7 +22,7 @@ jarvis_top_us_all_off(dataset, weight_var)
 }
 }
 \description{
-Use topline() to automate all the frequencies for a topline report. This function can only be used if your questions have the proper prefixes:
+ATTENTION: THIS FUNCTION IS NOW DEPRECATED. INSTEAD, USE topline_freqs() and topline_appendix(). Use to automate all the frequencies for a topline report. This function can only be used if your questions have the proper prefixes:
 \enumerate{
 \item "s_" for single select,
 \item "m_" for multiple select,

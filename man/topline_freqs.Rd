@@ -18,11 +18,11 @@ topline_freqs(
 
 \item{weight_var}{Variable containing weights}
 
-\item{assign_s}{DEFAULT = NULL, A list of unquoted variables to be treated as single select variables}
+\item{assign_s}{DEFAULT = NULL, A vector of unquoted variables to be treated as single select variables, put within c()}
 
-\item{assign_m}{DEFAULT = NULL, A list of unquoted variables to be treated as multiple select variables}
+\item{assign_m}{DEFAULT = NULL, A vector of unquoted variables to be treated as multiple select variables, put within c()}
 
-\item{assign_n}{DEFAULT = NULL, A list of unquoted variables to be treated as numeric variables}
+\item{assign_n}{DEFAULT = NULL, A vector of unquoted variables to be treated as numeric variables, put within c()}
 
 \item{unweighted_ns}{DEFAULT = TRUE, Display weighted or unweighted n-sizes in topline report}
 }
@@ -45,8 +45,9 @@ municipal_data \%>\%
 topline_freqs()
 
 municipal_data \%>\%
-topline_freqs(
-weight_var = weights
+  topline_freqs(
+    assign_n = c(d_yearborn, Duration__in_seconds_),
+    weight_var = weights
 )
 }
 \keyword{freqs}

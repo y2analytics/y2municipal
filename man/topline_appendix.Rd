@@ -9,7 +9,7 @@ topline_appendix(dataset, assign_oe = NULL, qsf)
 \arguments{
 \item{dataset}{A dataframe for which you want to create a topline}
 
-\item{assign_oe}{DEFAULT = NULL, A list of unquoted variables to be treated as open-ended variables}
+\item{assign_oe}{DEFAULT = NULL, A vector of unquoted variables to be treated as open-ended variables, put within c()}
 
 \item{qsf}{file path to a qsf}
 }
@@ -30,6 +30,11 @@ Use topline_appendix() to automate all the qualitative reponses for a topline re
 \examples{
 municipal_data \%>\%
 topline_appendix()
+
+municipal_data \%>\%
+  topline_appendix(
+    assign_oe = c(RecipientEmail, UserLanguage)
+  )
 }
 \keyword{freqs}
 \keyword{topline}

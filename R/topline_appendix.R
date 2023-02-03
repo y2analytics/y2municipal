@@ -13,13 +13,18 @@
 #'
 #' @keywords freqs topline
 #' @param dataset A dataframe for which you want to create a topline
-#' @param assign_oe DEFAULT = NULL, A list of unquoted variables to be treated as open-ended variables
+#' @param assign_oe DEFAULT = NULL, A vector of unquoted variables to be treated as open-ended variables, put within c()
 #' @param qsf file path to a qsf
 #' @export
 #' @return A tibble of open-ended responses
 #' @examples
 #' municipal_data %>%
 #' topline_appendix()
+#'
+#' municipal_data %>%
+#'   topline_appendix(
+#'     assign_oe = c(RecipientEmail, UserLanguage)
+#'   )
 
 topline_appendix <- function(
     dataset,

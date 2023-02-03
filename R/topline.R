@@ -3,7 +3,7 @@
 
 #' Create all data for a topline
 #'
-#' Use topline() to automate all the frequencies for a topline report. This function can only be used if your questions have the proper prefixes:
+#' ATTENTION: THIS FUNCTION IS NOW DEPRECATED. INSTEAD, USE topline_freqs() and topline_appendix(). Use to automate all the frequencies for a topline report. This function can only be used if your questions have the proper prefixes:
 #'  1. "s_" for single select,
 #'  2. "m_" for multiple select,
 #'  3. "oe_" for open ends,

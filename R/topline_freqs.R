@@ -14,9 +14,9 @@
 #' @keywords freqs topline
 #' @param dataset A dataframe for which you want to create a topline
 #' @param weight_var Variable containing weights
-#' @param assign_s DEFAULT = NULL, A list of unquoted variables to be treated as single select variables
-#' @param assign_m DEFAULT = NULL, A list of unquoted variables to be treated as multiple select variables
-#' @param assign_n DEFAULT = NULL, A list of unquoted variables to be treated as numeric variables
+#' @param assign_s DEFAULT = NULL, A vector of unquoted variables to be treated as single select variables, put within c()
+#' @param assign_m DEFAULT = NULL, A vector of unquoted variables to be treated as multiple select variables, put within c()
+#' @param assign_n DEFAULT = NULL, A vector of unquoted variables to be treated as numeric variables, put within c()
 #' @param unweighted_ns DEFAULT = TRUE, Display weighted or unweighted n-sizes in topline report
 #' @export
 #' @return A tibble of frequencies
@@ -25,8 +25,9 @@
 #' topline_freqs()
 #'
 #' municipal_data %>%
-#' topline_freqs(
-#' weight_var = weights
+#'   topline_freqs(
+#'     assign_n = c(d_yearborn, Duration__in_seconds_),
+#'     weight_var = weights
 #' )
 
 
@@ -396,6 +397,7 @@ get_nums <-
         ) %>%
         dplyr::mutate(
           dplyr::across(
+            .cols = tidyselect::everything(),
             .fns = ~forcats::as_factor(.x) %>%
               as.character() %>%
               as.numeric()
@@ -408,15 +410,15 @@ get_nums <-
           unweighted_ns = unweighted.ns
         ) %>%
         dplyr::select(
-          -.data$label
+          -'label'
         ) %>%
         dplyr::left_join(
           labels,
           by = 'variable'
         ) %>%
         dplyr::relocate(
-          .data$label,
-          .after = .data$value
+          'label',
+          .after = 'value'
         )
 
 
@@ -530,11 +532,11 @@ combine_grouped_toplines <- function(
       )
     ) %>%
     dplyr::select(
-      .data$variable,
-      .data$prompt,
-      .data$value,
-      .data$label,
-      .data$ stat,
+      'variable',
+      'prompt',
+      'value',
+      'label',
+      'stat',
       tidyselect::everything()
     )
 
