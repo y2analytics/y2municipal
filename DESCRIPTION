@@ -1,7 +1,7 @@
 Type: Package
 Package: y2municipal
 Title: Prepare your municipal data
-Version: 0.1.2
+Version: 0.1.3
 Authors@R: c(
     person('Nick', 'Moffitt', email = 'nickmoffitt@y2analytics.com', role = c('aut', 'cre')),
     person('Danny', 'Cowser', email = 'danny@y2analytics.com', role = 'aut'),
@@ -26,6 +26,7 @@ Imports:
     stringr,
     sysfonts,
     tibble,
+    tidyr,
     tidyselect,
     y2clerk
 Encoding: UTF-8
@@ -34,3 +35,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Depends: 
     R (>= 2.10)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

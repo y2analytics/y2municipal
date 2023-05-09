@@ -1,3 +1,9 @@
+# y2municipal 0.1.3
+## new features
+* `topline_freqs()` Has a new argument *silently* which hides message output (e.g., progress of completing freqs on variables or printing of variables not included in the topline). 
+* `topline_freqs()` Has a new column in the output: *base_ns* which notes the number of observations that had a response for any given question, or set of questions (for multiple select blocks). This new column is used by Internbot in its calculations.  
+
+
 # y2municipal 0.1.1
 ## new functions
 * `topline()` split into two functions: `topline_appendix()` and `topline_freqs()`
