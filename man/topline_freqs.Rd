@@ -10,7 +10,8 @@ topline_freqs(
   assign_s = NULL,
   assign_m = NULL,
   assign_n = NULL,
-  unweighted_ns = TRUE
+  unweighted_ns = TRUE,
+  silently = FALSE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ topline_freqs(
 \item{assign_n}{DEFAULT = NULL, A vector of unquoted variables to be treated as numeric variables, put within c()}
 
 \item{unweighted_ns}{DEFAULT = TRUE, Display weighted or unweighted n-sizes in topline report}
+
+\item{silently}{DEFAULT = FALSE, Hide message output (e.g., progress of completing freqs on variables or printing of variables not included in the topline)}
 }
 \value{
 A tibble of frequencies

@@ -4,27 +4,21 @@
 \alias{topline_appendix}
 \title{Create open ended data for a topline}
 \usage{
-topline_appendix(dataset, assign_oe = NULL, qsf)
+topline_appendix(dataset, assign_oe = NULL)
 }
 \arguments{
 \item{dataset}{A dataframe for which you want to create a topline}
 
 \item{assign_oe}{DEFAULT = NULL, A vector of unquoted variables to be treated as open-ended variables, put within c()}
-
-\item{qsf}{file path to a qsf}
 }
 \value{
 A tibble of open-ended responses
 }
 \description{
-Use topline_appendix() to automate all the qualitative reponses for a topline report. This function works best if your questions have the proper prefixes:
+Use topline_appendix() to automate all the qualitative responses for a topline report. This function works best if your questions have the proper prefixes and suffixes:
 \enumerate{
-\item "s_" for single select,
-\item "m_" for multiple select,
-\item "oe_" for open ends,
-\item "n_" for numeric,
-\item "r_" for ranked,
-\item "md_" for max diff.
+\item prefix "oe_" for open ends
+\item suffix "_TEXT" for open ends
 }
 }
 \examples{

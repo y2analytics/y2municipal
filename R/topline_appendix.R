@@ -3,18 +3,13 @@
 
 #' Create open ended data for a topline
 #'
-#' Use topline_appendix() to automate all the qualitative reponses for a topline report. This function works best if your questions have the proper prefixes:
-#'  1. "s_" for single select,
-#'  2. "m_" for multiple select,
-#'  3. "oe_" for open ends,
-#'  4. "n_" for numeric,
-#'  5. "r_" for ranked,
-#'  6. "md_" for max diff.
+#' Use topline_appendix() to automate all the qualitative responses for a topline report. This function works best if your questions have the proper prefixes and suffixes:
+#'  1. prefix "oe_" for open ends
+#'  2. suffix "_TEXT" for open ends
 #'
 #' @keywords freqs topline
 #' @param dataset A dataframe for which you want to create a topline
 #' @param assign_oe DEFAULT = NULL, A vector of unquoted variables to be treated as open-ended variables, put within c()
-#' @param qsf file path to a qsf
 #' @export
 #' @return A tibble of open-ended responses
 #' @examples
@@ -28,8 +23,7 @@
 
 topline_appendix <- function(
     dataset,
-    assign_oe = NULL,
-    qsf
+    assign_oe = NULL
 ) {
 
   dataset %>%
