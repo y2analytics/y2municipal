@@ -282,7 +282,9 @@ topline_freqs <- function(
 }
 
 
-
+#' @rdname topline_freqs
+#' @export
+jarvis_top_us_all_off <- topline_freqs
 
 # Private functions -------------------------------------------------------
 # Single Freqs ------------------------------------------------------------
