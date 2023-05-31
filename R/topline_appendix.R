@@ -35,3 +35,8 @@ topline_appendix <- function(
     y2clerk::verbatims_y2()
 
 }
+
+
+#' @rdname topline_appendix
+#' @export
+jarvis_listen_to_guests <- topline_appendix

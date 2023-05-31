@@ -375,6 +375,7 @@ test_that("unweighted_ns argument", {
     weight_var = weights,
     unweighted_ns = FALSE
   )
+
   expect_equal(frequencies_unweighted$n[1], 1)
   expect_equal(frequencies_unweighted$n[5], 2)
 

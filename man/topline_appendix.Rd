@@ -2,9 +2,12 @@
 % Please edit documentation in R/topline_appendix.R
 \name{topline_appendix}
 \alias{topline_appendix}
+\alias{jarvis_listen_to_guests}
 \title{Create open ended data for a topline}
 \usage{
 topline_appendix(dataset, assign_oe = NULL)
+
+jarvis_listen_to_guests(dataset, assign_oe = NULL)
 }
 \arguments{
 \item{dataset}{A dataframe for which you want to create a topline}

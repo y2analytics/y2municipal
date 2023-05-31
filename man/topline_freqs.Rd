@@ -2,9 +2,20 @@
 % Please edit documentation in R/topline_freqs.R
 \name{topline_freqs}
 \alias{topline_freqs}
+\alias{jarvis_top_us_all_off}
 \title{Create all data for a topline}
 \usage{
 topline_freqs(
+  dataset,
+  weight_var,
+  assign_s = NULL,
+  assign_m = NULL,
+  assign_n = NULL,
+  unweighted_ns = TRUE,
+  silently = FALSE
+)
+
+jarvis_top_us_all_off(
   dataset,
   weight_var,
   assign_s = NULL,

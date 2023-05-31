@@ -19,8 +19,8 @@
 #' @param assign_n DEFAULT = NULL, A vector of unquoted variables to be treated as numeric variables, put within c()
 #' @param unweighted_ns DEFAULT = TRUE, Display weighted or unweighted n-sizes in topline report
 #' @param silently DEFAULT = FALSE, Hide message output (e.g., progress of completing freqs on variables or printing of variables not included in the topline)
-#' @export
 #' @return A tibble of frequencies
+#' @importFrom rlang .data
 #' @examples
 #' municipal_data %>%
 #' topline_freqs()
@@ -30,6 +30,7 @@
 #'     assign_n = c(d_yearborn, Duration__in_seconds_),
 #'     weight_var = weights
 #' )
+#' @export
 
 
 topline_freqs <- function(

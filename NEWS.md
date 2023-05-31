@@ -1,3 +1,9 @@
+# y2municipal 0.2.0
+## Breaking changes
+* Dropping two functions: *topline()* and *read_data_names_fonts()*
+* Updated Easter egg functions. 
+
+
 # y2municipal 0.1.3
 ## new features
 * `topline_freqs()` Has a new argument *silently* which hides message output (e.g., progress of completing freqs on variables or printing of variables not included in the topline). 
