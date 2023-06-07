@@ -122,7 +122,7 @@ topline_freqs <- function(
       -{{ assign_m }},
       -{{ assign_n }}
     ) %>%
-    names
+    names()
 
   multi_vars <-
     dataset %>%
@@ -134,7 +134,7 @@ topline_freqs <- function(
       -{{ assign_s }},
       -{{ assign_n }}
     ) %>%
-    names
+    names()
 
   num_vars <-
     dataset %>%
@@ -148,7 +148,11 @@ topline_freqs <- function(
       -{{ assign_m }},
       -{{ assign_s }}
     ) %>%
-    names
+    names()
+
+  if (length(single_vars) + length(multi_vars) + length(num_vars) == 0) {
+    stop('You currently have no variables specified or no variables with proper y2 prefixes. Please either list out the variables you wish to include or check if your variables have the correct prefixes.')
+  }
 
   # Get lists of run and unrun variables ------------------------------------
 
@@ -161,7 +165,7 @@ topline_freqs <- function(
           !tidyselect::all_of(num_vars)
       )
     ) %>%
-    names
+    names()
 
   unrun_vars <-
     dataset %>%
@@ -170,7 +174,7 @@ topline_freqs <- function(
       -tidyselect::starts_with('oe_'),
       -tidyselect::ends_with('_TEXT')
     ) %>%
-    names %>%
+    names() %>%
     setdiff(
       c(
         'StartDate',
@@ -394,7 +398,7 @@ get_nums <-
           prompt = labelled::var_label(labels_list) %>%
             as.character(),
           label = .data$prompt,
-          variable = labels_list %>% names
+          variable = labels_list %>% names()
         )  %>%
         dplyr::mutate(
           prompt = stringr::str_remove(.data$label, ' - .+') %>%
@@ -622,7 +626,7 @@ base_ns_single <- function(
     ) {
   var_names_singles <- dataset %>%
     dplyr::select(-tidyselect::all_of(multi_vars)) %>%
-    names
+    names()
   datalist <- list()
   for(i in var_names_singles) {
     data <- dataset %>%
@@ -739,7 +743,7 @@ base_ns_single_grouped <- function(
       -tidyselect::all_of(multi_vars),
       -tidyselect::all_of(group_variables)
       ) %>%
-    names
+    names()
   datalist <- list()
   for(i in var_names_singles) {
     data <- dataset %>%

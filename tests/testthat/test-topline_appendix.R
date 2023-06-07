@@ -1,5 +1,21 @@
 
-# Overall Tests -----------------------------------------------------------
+# Error/Warning Tests -----------------------------------------------------
+
+test_that("Error - no variables", {
+  dataset <- tibble::tibble(
+    m_var_3_TEST = 'Other text',
+    q_var = 'a lot of text'
+  )
+
+  expect_error(
+    topline_appendix(dataset %>% dplyr::select(-dplyr::everything())),
+    'You currently have no variables specified OR no variables starting with "oe_" or ending with "_TEXT." Please either list out the variables you wish to include or check if your variables have the correct prefixes/suffixes.'
+    )
+  expect_error(
+    topline_appendix(dataset),
+    'You currently have no variables specified OR no variables starting with "oe_" or ending with "_TEXT." Please either list out the variables you wish to include or check if your variables have the correct prefixes/suffixes.'
+  )
+})
 
 test_that("Warnings", {
   dataset <- tibble::tibble(
@@ -13,6 +29,9 @@ test_that("Warnings", {
   )
 })
 
+
+
+# Overall Tests -----------------------------------------------------------
 
 test_that("Pulls right variables", {
   dataset <- tibble::tibble(
@@ -67,7 +86,7 @@ test_that("correct output formatting", {
   )
   expect_equal(
     names(frequencies),
-    c('variable', 'prompt', 'label')
+    c('variable', 'prompt', 'label', 'base_ns')
   )
   expect_equal(
     frequencies %>% dplyr::pull(label),

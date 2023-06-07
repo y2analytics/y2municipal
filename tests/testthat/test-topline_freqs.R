@@ -81,6 +81,37 @@ test_that("missing question types", {
       topline_freqs(silently = TRUE),
     regexp = NA
   )
+  expect_error(
+    topline_freqs(dataset %>% dplyr::select(-dplyr::everything())),
+    'You currently have no variables specified or no variables with proper y2 prefixes. Please either list out the variables you wish to include or check if your variables have the correct prefixes.'
+  )
+})
+
+
+test_that("missing error no variables", {
+  dataset <- tibble::tibble(
+    s_var = 1,
+    m_var_1 = 1,
+    m_var_2 = NA_real_,
+    m_var_3 = 1,
+    n_var = 875
+  )
+  expect_error(
+    topline_freqs(dataset %>% dplyr::select(-dplyr::everything())),
+    'You currently have no variables specified or no variables with proper y2 prefixes. Please either list out the variables you wish to include or check if your variables have the correct prefixes.'
+  )
+
+  dataset <- tibble::tibble(
+    q_var = 1,
+    xyz = 1,
+    groups = NA_real_,
+    vn_var = 1,
+    weights = 875
+  )
+  expect_error(
+    topline_freqs(dataset),
+    'You currently have no variables specified or no variables with proper y2 prefixes. Please either list out the variables you wish to include or check if your variables have the correct prefixes.'
+  )
 })
 
 
