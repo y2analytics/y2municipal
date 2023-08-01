@@ -1,3 +1,8 @@
+# y2municipal 0.2.2
+## Bug fixes
+* base_ns was not calculating correctly.
+
+
 # y2municipal 0.2.1
 ## new features
 * `topline_freqs()` & `topline_appendix()` - added an error message for when no variables are provided or when none of the variables provided have the proper y2 prefixes. 

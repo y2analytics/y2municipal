@@ -1,7 +1,6 @@
+# Errors and Warnings -----------------------------------------------------
 
-# Overall Tests ----------------------------------------------------------------
-
-test_that("errors", {
+test_that("Error: multiple grouping variables", {
   dataset <- tibble::tibble(
     s_var = 1,
     m_var_1 = 1,
@@ -16,6 +15,95 @@ test_that("errors", {
   )
 })
 
+
+test_that("Error: missing question types", {
+  dataset <- tibble::tibble(
+    s_var = 1,
+    m_var_1 = 1,
+    m_var_2 = NA_real_,
+    m_var_3 = 1,
+    n_var = 875
+  )
+  labelled::val_label(dataset$m_var_2, 1) <- 'empty'
+
+  expect_error(
+    dataset %>%
+      dplyr::select(-s_var) %>%
+      topline_freqs(silently = TRUE),
+    regexp = NA
+  )
+  expect_error(
+    dataset %>%
+      dplyr::select(-m_var_1:-m_var_3) %>%
+      topline_freqs(silently = TRUE),
+    regexp = NA
+  )
+  expect_error(
+    dataset %>%
+      dplyr::select(-n_var) %>%
+      topline_freqs(silently = TRUE),
+    regexp = NA
+  )
+  expect_error(
+    topline_freqs(dataset %>% dplyr::select(-dplyr::everything())),
+    'You currently have no variables specified or no variables with proper y2 prefixes. Please either list out the variables you wish to include or check if your variables have the correct prefixes.'
+  )
+})
+
+
+test_that("Error: missing variables", {
+  dataset <- tibble::tibble(
+    s_var = 1,
+    m_var_1 = 1,
+    m_var_2 = NA_real_,
+    m_var_3 = 1,
+    n_var = 875
+  )
+  expect_error(
+    topline_freqs(dataset %>% dplyr::select(-dplyr::everything())),
+    'You currently have no variables specified or no variables with proper y2 prefixes. Please either list out the variables you wish to include or check if your variables have the correct prefixes.'
+  )
+
+  dataset <- tibble::tibble(
+    q_var = 1,
+    xyz = 1,
+    groups = NA_real_,
+    vn_var = 1,
+    weights = 875
+  )
+  expect_error(
+    topline_freqs(dataset),
+    'You currently have no variables specified or no variables with proper y2 prefixes. Please either list out the variables you wish to include or check if your variables have the correct prefixes.'
+  )
+})
+
+
+test_that("Warning: missing labels for multiple selects", {
+  dataset <- tibble::tibble(
+    s_var = c(1, 2, 3, 2, NA_real_),
+    m_var_1 = c(1, NA_real_, NA_real_, 1, 1),
+    m_var_2 = c(NA_real_, NA_real_, 1, NA_real_, 1),
+    n_var = c(0, 50, 100, 100, 100),
+    groups = c('group 1', 'group 1', 'group 2', 'group 3', 'group 2')
+  )
+  labelled::val_label(dataset$m_var_1, 1) <- 'some1'
+  dataset <- dataset %>% dplyr::group_by(groups)
+
+
+  expect_warning(
+    dataset %>% dplyr::ungroup() %>% topline_freqs(silently = TRUE),
+    regexp = NA
+  )
+  expect_warning(
+    dataset %>% dplyr::group_by(groups) %>% topline_freqs(silently = TRUE),
+    'Not all multiple select variables have labels. Please ensure this is intended before continuing. When working with grouped data, results may be inaccurate for multiple select questions if they are not all labelled.'
+  )
+
+})
+
+
+
+# Overall Tests ----------------------------------------------------------------
 
 test_that("Pulls right variables", {
   dataset <- tibble::tibble(
@@ -53,68 +141,6 @@ test_that("Pulls right variables", {
 })
 
 
-test_that("missing question types", {
-  dataset <- tibble::tibble(
-    s_var = 1,
-    m_var_1 = 1,
-    m_var_2 = NA_real_,
-    m_var_3 = 1,
-    n_var = 875
-  )
-  labelled::val_label(dataset$m_var_2, 1) <- 'empty'
-
-  expect_error(
-    dataset %>%
-      dplyr::select(-s_var) %>%
-      topline_freqs(silently = TRUE),
-    regexp = NA
-  )
-  expect_error(
-    dataset %>%
-      dplyr::select(-m_var_1:-m_var_3) %>%
-      topline_freqs(silently = TRUE),
-    regexp = NA
-  )
-  expect_error(
-    dataset %>%
-      dplyr::select(-n_var) %>%
-      topline_freqs(silently = TRUE),
-    regexp = NA
-  )
-  expect_error(
-    topline_freqs(dataset %>% dplyr::select(-dplyr::everything())),
-    'You currently have no variables specified or no variables with proper y2 prefixes. Please either list out the variables you wish to include or check if your variables have the correct prefixes.'
-  )
-})
-
-
-test_that("missing error no variables", {
-  dataset <- tibble::tibble(
-    s_var = 1,
-    m_var_1 = 1,
-    m_var_2 = NA_real_,
-    m_var_3 = 1,
-    n_var = 875
-  )
-  expect_error(
-    topline_freqs(dataset %>% dplyr::select(-dplyr::everything())),
-    'You currently have no variables specified or no variables with proper y2 prefixes. Please either list out the variables you wish to include or check if your variables have the correct prefixes.'
-  )
-
-  dataset <- tibble::tibble(
-    q_var = 1,
-    xyz = 1,
-    groups = NA_real_,
-    vn_var = 1,
-    weights = 875
-  )
-  expect_error(
-    topline_freqs(dataset),
-    'You currently have no variables specified or no variables with proper y2 prefixes. Please either list out the variables you wish to include or check if your variables have the correct prefixes.'
-  )
-})
-
-
 test_that("output formatting", {
   dataset <- tibble::tibble(
     s_var = 1,
@@ -140,37 +166,43 @@ test_that("output formatting", {
 
 test_that("base_ns calculations", {
   dataset <- tibble::tibble(
-    s_var = c(1, 2),
-    m_var_1 = c(1, NA_real_),
-    m_var_2 = c(1, NA_real_),
-    n_var = c(0, 50),
-    weights = c(1, 2)
+    s_var = c(1, 2, NA_real_),
+    m_var_1 = c(NA_real_, NA_real_, 1),
+    m_var_2 = c(NA_real_, NA_real_, NA_real_),
+    m_var_3 = c(1, NA_real_, NA_real_),
+    n_var = c(0, 50, 75),
+    weights = c(1, 2, 1)
   )
   frequencies <- dataset %>% topline_freqs(silently = TRUE)
   ns_s_var <- frequencies %>%
     dplyr::filter(variable == 's_var') %>%
-    dplyr::pull(base_ns)
+    dplyr::pull(base_ns) %>%
+    unique()
   ns_m_var <- frequencies %>%
     dplyr::filter(variable == 'm_var_1') %>%
-    dplyr::pull(base_ns)
+    dplyr::pull(base_ns) %>%
+    unique()
   ns_n_var <- frequencies %>%
     dplyr::filter(variable == 'n_var') %>%
-    dplyr::pull(base_ns)
+    dplyr::pull(base_ns) %>%
+    unique()
 
-  expect_equal(ns_s_var, c(2, 2))
-  expect_equal(ns_m_var, c(1))
-  expect_equal(ns_n_var, c(2))
+  expect_equal(ns_s_var, 2)
+  expect_equal(ns_m_var, 2)
+  expect_equal(ns_n_var, 3)
 })
 
 
 test_that("grouped topline", {
   dataset <- tibble::tibble(
-    s_var = c(1, 2, 3, 2),
-    m_var_1 = c(1, NA_real_, 1, 1),
-    n_var = c(0, 50, 100, 100),
-    groups = c('group 1', 'group 2', 'group 3', 'group 2')
+    s_var = c(1, 2, 3, 2, NA_real_),
+    m_var_1 = c(1, NA_real_, NA_real_, 1, 1),
+    m_var_2 = c(NA_real_, NA_real_, 1, NA_real_, 1),
+    n_var = c(0, 50, 100, 100, 100),
+    groups = c('group 1', 'group 1', 'group 2', 'group 3', 'group 2')
   )
   labelled::val_label(dataset$m_var_1, 1) <- 'some1'
+  labelled::val_label(dataset$m_var_2, 1) <- 'some2'
   dataset <- dataset %>% dplyr::group_by(groups)
   frequencies <- dataset %>% topline_freqs(silently = TRUE)
 
@@ -182,27 +214,26 @@ test_that("grouped topline", {
       )
   )
 
-  base_ns_s_var3 <- frequencies %>%
+  base_ns_s_var <- frequencies %>%
     dplyr::filter(variable == 's_var') %>%
-    dplyr::pull(`base_ns group 2`)
-  base_ns_m_var3 <- frequencies %>%
+    dplyr::pull(`base_ns group 2`) %>%
+    unique()
+  base_ns_m_var <- frequencies %>%
     dplyr::filter(variable == 'm_var_1') %>%
-    dplyr::pull(`base_ns group 3`)
-  base_ns_m_var2 <- frequencies %>%
+    dplyr::pull(`base_ns group 3`) %>%
+    unique()
+  ns_s_var <- frequencies %>%
+    dplyr::filter(variable == 's_var') %>%
+    dplyr::pull(`n group 1`)
+  result_m_var <- frequencies %>%
     dplyr::filter(variable == 'm_var_1') %>%
-    dplyr::pull(`base_ns group 2`)
-  ns_m_var2 <- frequencies %>%
-    dplyr::filter(variable == 'm_var_1') %>%
-    dplyr::pull(`n group 2`)
-  result_m_var2 <- frequencies %>%
-    dplyr::filter(variable == 'm_var_1') %>%
-    dplyr::pull(`n group 2`)
+    dplyr::pull(`result group 2`) %>%
+    unique()
 
-  expect_equal(base_ns_s_var3, 2)
-  expect_equal(base_ns_m_var3, 1)
-  expect_equal(base_ns_m_var2, 1)
-  expect_equal(ns_m_var2, 1)
-  expect_equal(result_m_var2, 1)
+  expect_equal(base_ns_s_var, 1)
+  expect_equal(base_ns_m_var, 1)
+  expect_equal(ns_s_var, c(1, 1))
+  expect_equal(result_m_var, .5)
 })
 
 

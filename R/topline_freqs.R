@@ -45,16 +45,10 @@ topline_freqs <- function(
 
 
   # Check for grouping ------------------------------------------------------
-
-  if (
-    dplyr::is_grouped_df(
-      dataset
-    )
-  ) {
+  if (dplyr::is_grouped_df(dataset)) {
     group_variables <-
       dataset %>%
       dplyr::group_vars()
-
 
     if (group_variables %>% length > 1) {
       error_message <-
@@ -63,9 +57,7 @@ topline_freqs <- function(
           stringr::str_flatten(group_variables, collapse = ', ')
         )
 
-      stop(
-        error_message
-      )
+      stop(error_message)
     }
 
     dataset <-
@@ -152,6 +144,19 @@ topline_freqs <- function(
 
   if (length(single_vars) + length(multi_vars) + length(num_vars) == 0) {
     stop('You currently have no variables specified or no variables with proper y2 prefixes. Please either list out the variables you wish to include or check if your variables have the correct prefixes.')
+  }
+
+  # warn about labels
+  labelled_multi_vars <- purrr::map_lgl(
+    .x = dataset %>% dplyr::select(dplyr::all_of(multi_vars)),
+    .f = ~labelled::is.labelled(.x)
+  ) %>%
+    sum()
+
+  if (labelled_multi_vars < length(multi_vars) & grouped_data == TRUE) {
+    warning(
+      'Not all multiple select variables have labels. Please ensure this is intended before continuing. When working with grouped data, results may be inaccurate for multiple select questions if they are not all labelled.'
+    )
   }
 
   # Get lists of run and unrun variables ------------------------------------
@@ -578,6 +583,7 @@ base_ns_multi <- function(
     data <- dataset %>%
       dplyr::select(
         dplyr::starts_with(stringr::str_c(i, '_')),
+        -dplyr::ends_with('TEXT')
       ) %>%
       # Following lines filter out rows where none of the questions have been answered
       dplyr::mutate(ns = rowSums(
@@ -588,7 +594,8 @@ base_ns_multi <- function(
             FALSE,
             TRUE
           )
-        )
+        ),
+        na.rm = TRUE
       )) %>%
       dplyr::filter(
         ns > 0
@@ -629,8 +636,9 @@ base_ns_single <- function(
     names()
   datalist <- list()
   for(i in var_names_singles) {
+    var_symbol <- rlang::sym(i)
     data <- dataset %>%
-      dplyr::filter(!is.na(i)) %>%
+      dplyr::filter(!is.na(!!var_symbol)) %>%
       dplyr::count() %>%
       dplyr::mutate(variable = i)
     datalist[[i]] <- data
@@ -671,6 +679,7 @@ base_ns_multi_grouped <- function(
       dplyr::group_by(.data[[group_variables]]) %>%
       dplyr::select(
         dplyr::starts_with(stringr::str_c(i, '_')),
+        -dplyr::ends_with('TEXT')
       ) %>%
       # Following lines filter out rows where none of the questions have been answered
       dplyr::mutate(ns = rowSums(
@@ -681,7 +690,8 @@ base_ns_multi_grouped <- function(
             FALSE,
             TRUE
           )
-        )
+        ),
+        na.rm = TRUE
       )) %>%
       dplyr::filter(
         ns > 0
@@ -746,9 +756,10 @@ base_ns_single_grouped <- function(
     names()
   datalist <- list()
   for(i in var_names_singles) {
+    var_symbol <- rlang::sym(i)
     data <- dataset %>%
       dplyr::group_by(.data[[group_variables]]) %>%
-      dplyr::filter(!is.na(i)) %>%
+      dplyr::filter(!is.na(!!var_symbol)) %>%
       dplyr::count() %>%
       dplyr::mutate(
         variable = i,
