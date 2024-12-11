@@ -24,8 +24,10 @@ methodology <- function(dataset, population) {
   # LOI
   loi_minutes_untrimmed <- (mean(dataset$Duration__in_seconds_) / 60) %>% round(1)
   loi_minutes_trimmed <- (mean(dataset$Duration__in_seconds_, trim = 0.025) / 60)  %>% round(1)
+  loi_minutes_median <- (median(dataset$Duration__in_seconds_) / 60)  %>% round(1)
   loi_minutes_untrimmed_char <- stringr::str_c('Mean LOI: ', loi_minutes_untrimmed, ' minutes')
   loi_minutes_trimmed_char <- stringr::str_c('Mean LOI trimmed: ', loi_minutes_trimmed, ' minutes')
+  loi_minutes_median_char <- stringr::str_c('Median LOI trimmed: ', loi_minutes_median, ' minutes')
 
   # Field dates
   field_dates_char <- get_field_dates(dataset)
@@ -37,6 +39,7 @@ methodology <- function(dataset, population) {
   cat(
     loi_minutes_untrimmed_char,
     loi_minutes_trimmed_char,
+    loi_minutes_median_char,
     field_dates_char,
     moe_char,
     sep = '\n'
