@@ -1,11 +1,12 @@
 Type: Package
 Package: y2municipal
 Title: Prepare your municipal data
-Version: 0.2.2
+Version: 0.2.3
 Authors@R: c(
     person('Nick', 'Moffitt', email = 'nickmoffitt@y2analytics.com', role = c('aut', 'cre')),
     person('Danny', 'Cowser', email = 'danny@y2analytics.com', role = 'aut'),
     person('Pearce', 'Solomon', email = 'pearce@y2analytics.com', role = 'aut'),
+    person('Canyen', 'Heimuli', email = 'canyen@y2analytics.com', role = 'aut'),
     person('Y2 Analytics', role = c('cph', 'fnd'))
     )
 Description: Load in data, prep your environment, clean your voter files, and automate y2 reports.
@@ -19,6 +20,7 @@ Imports:
     magrittr,
     purrr,
     rlang,
+    stats,
     stringr,
     tibble,
     tidyr,
