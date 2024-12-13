@@ -20,7 +20,6 @@ Imports:
     magrittr,
     purrr,
     rlang,
-    stats,
     stringr,
     tibble,
     tidyr,
