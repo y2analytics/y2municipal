@@ -1,3 +1,7 @@
+# y2municipal 0.2.3
+## New features
+* `methodology()` function now shows the median length of interview (LOI) along with other methodology details
+
 # y2municipal 0.2.2
 ## Bug fixes
 * base_ns was not calculating correctly.
