@@ -10,6 +10,7 @@ Authors@R: c(
     person('Y2 Analytics', role = c('cph', 'fnd'))
     )
 Description: Load in data, prep your environment, clean your voter files, and automate y2 reports.
+URL: https://y2analytics.github.io/y2municipal/
 License: GPL-3 + file LICENSE
 Imports:
     dplyr (>= 1.0.0),
