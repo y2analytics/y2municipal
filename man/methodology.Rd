@@ -5,14 +5,32 @@
 \alias{jarvis_sommelier_the_survey}
 \title{Get info on survey methodology}
 \usage{
-methodology(dataset, population)
+methodology(
+  dataset,
+  population,
+  start_date = StartDate,
+  end_date = EndDate,
+  duration = Duration__in_seconds_
+)
 
-jarvis_sommelier_the_survey(dataset, population)
+jarvis_sommelier_the_survey(
+  dataset,
+  population,
+  start_date = StartDate,
+  end_date = EndDate,
+  duration = Duration__in_seconds_
+)
 }
 \arguments{
-\item{dataset}{A dataframe for which you want the methodology information. Your dataset needs the following standard variables from Qualtrics to work: StartDate, EndDate, Duration__in_seconds_}
+\item{dataset}{A dataframe for which you want the methodology information.}
 
 \item{population}{The population size your survey is based on (e.g. number of voters in the city)}
+
+\item{start_date}{Unquoted name of the start date column (default: StartDate)}
+
+\item{end_date}{Unquoted name of the end date column (default: EndDate)}
+
+\item{duration}{Unquoted name of the interview duration column in seconds (default: Duration__in_seconds_)}
 }
 \value{
 Methodology information printed to your console
