@@ -155,7 +155,7 @@ test_that("output formatting", {
 
   expect_equal(
     class(frequencies),
-    c('tbl_df', 'tbl', 'data.frame')
+    c('freq_y2', 'tbl_df', 'tbl', 'data.frame')
     )
   expect_equal(
     names(frequencies),

@@ -1,3 +1,8 @@
+# y2municipal 0.2.4
+## New features
+* `methodology()` function now shows methodology information for as many metrics as it can instead of failing if it did not have information for one metric
+
+
 # y2municipal 0.2.3
 ## New features
 * `methodology()` function now shows the median length of interview (LOI) along with other methodology details
