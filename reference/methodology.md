@@ -6,23 +6,46 @@ Get the following survey methodology information: Length of interview
 ## Usage
 
 ``` r
-methodology(dataset, population)
+methodology(
+  dataset,
+  population,
+  start_date = StartDate,
+  end_date = EndDate,
+  duration = Duration__in_seconds_
+)
 
-jarvis_sommelier_the_survey(dataset, population)
+jarvis_sommelier_the_survey(
+  dataset,
+  population,
+  start_date = StartDate,
+  end_date = EndDate,
+  duration = Duration__in_seconds_
+)
 ```
 
 ## Arguments
 
 - dataset:
 
-  A dataframe for which you want the methodology information. Your
-  dataset needs the following standard variables from Qualtrics to work:
-  StartDate, EndDate, Duration\_\_in_seconds\_
+  A dataframe for which you want the methodology information.
 
 - population:
 
   The population size your survey is based on (e.g. number of voters in
   the city)
+
+- start_date:
+
+  Unquoted name of the start date column (default: StartDate)
+
+- end_date:
+
+  Unquoted name of the end date column (default: EndDate)
+
+- duration:
+
+  Unquoted name of the interview duration column in seconds (default:
+  Duration\_\_in_seconds\_)
 
 ## Value
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## y2municipal 0.2.4
+
+### New features
+
+- [`methodology()`](https://y2analytics.github.io/y2municipal/reference/methodology.md)
+  function now shows methodology information for as many metrics as it
+  can instead of failing if it did not have information for one metric
+
 ## y2municipal 0.2.3
 
 ### New features
