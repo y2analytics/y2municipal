@@ -22,10 +22,9 @@
 #'   )
 
 topline_appendix <- function(
-    dataset,
-    assign_oe = NULL
+  dataset,
+  assign_oe = NULL
 ) {
-
   oe_vars <- dataset %>%
     dplyr::select(
       tidyselect::starts_with('oe_'),
@@ -35,13 +34,14 @@ topline_appendix <- function(
     names()
 
   if (length(oe_vars) == 0) {
-    stop('You currently have no variables specified OR no variables starting with "oe_" or ending with "_TEXT." Please either list out the variables you wish to include or check if your variables have the correct prefixes/suffixes.')
+    stop(
+      'You currently have no variables specified OR no variables starting with "oe_" or ending with "_TEXT." Please either list out the variables you wish to include or check if your variables have the correct prefixes/suffixes.'
+    )
   }
 
   dataset %>%
     dplyr::select(tidyselect::all_of(oe_vars)) %>%
     y2clerk::verbatims_y2()
-
 }
 
 

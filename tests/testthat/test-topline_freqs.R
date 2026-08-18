@@ -89,7 +89,6 @@ test_that("Warning: missing labels for multiple selects", {
   labelled::val_label(dataset$m_var_1, 1) <- 'some1'
   dataset <- dataset %>% dplyr::group_by(groups)
 
-
   expect_warning(
     dataset %>% dplyr::ungroup() %>% topline_freqs(silently = TRUE),
     regexp = NA
@@ -98,9 +97,7 @@ test_that("Warning: missing labels for multiple selects", {
     dataset %>% dplyr::group_by(groups) %>% topline_freqs(silently = TRUE),
     'Not all multiple select variables have labels. Please ensure this is intended before continuing. When working with grouped data, results may be inaccurate for multiple select questions if they are not all labelled.'
   )
-
 })
-
 
 
 # Overall Tests ----------------------------------------------------------------
@@ -135,8 +132,21 @@ test_that("Pulls right variables", {
 
   expect_equal(
     vars_freqd,
-    c('s_var', 'm_var_1', 'm_var_2', 'm_var_3', 'n_var', 'r_var_1', 'r_var_2',
-      'r_var_3', 'md_var_1', 'md_var_2', 'md_var_3', 'M_RACE_1', 'M_RACE_2')
+    c(
+      's_var',
+      'm_var_1',
+      'm_var_2',
+      'm_var_3',
+      'n_var',
+      'r_var_1',
+      'r_var_2',
+      'r_var_3',
+      'md_var_1',
+      'md_var_2',
+      'md_var_3',
+      'M_RACE_1',
+      'M_RACE_2'
+    )
   )
 })
 
@@ -156,7 +166,7 @@ test_that("output formatting", {
   expect_equal(
     class(frequencies),
     c('freq_y2', 'tbl_df', 'tbl', 'data.frame')
-    )
+  )
   expect_equal(
     names(frequencies),
     c('variable', 'prompt', 'value', 'label', 'n', 'stat', 'result', 'base_ns')
@@ -208,10 +218,22 @@ test_that("grouped topline", {
 
   expect_equal(
     names(frequencies),
-    c('variable', 'prompt', 'value', 'label', 'stat', 'n group 1',
-      'result group 1', 'n group 2', 'result group 2', 'n group 3',
-      'result group 3', 'base_ns group 1', 'base_ns group 2', 'base_ns group 3'
-      )
+    c(
+      'variable',
+      'prompt',
+      'value',
+      'label',
+      'stat',
+      'n group 1',
+      'result group 1',
+      'n group 2',
+      'result group 2',
+      'n group 3',
+      'result group 3',
+      'base_ns group 1',
+      'base_ns group 2',
+      'base_ns group 3'
+    )
   )
 
   base_ns_s_var <- frequencies %>%
@@ -447,4 +469,3 @@ test_that("unweighted_ns argument", {
   expect_equal(frequencies_weighted_weightedns$n[2], 2)
   expect_equal(frequencies_weighted_weightedns$n[5], 3)
 })
-
