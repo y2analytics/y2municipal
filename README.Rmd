@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# y2clerk
+# y2municipal
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -34,17 +34,11 @@ The goal of `y2municipal` is to quickly and easily go through the standard proce
 
 ## Installation
 
-<!-- You can install the released version of y2municipal from [CRAN](https://CRAN.R-project.org) with: -->
-
-<!-- ``` r -->
-<!-- install.packages("y2municipal") -->
-<!-- ``` -->
-
-And the development version from [GitHub](https://github.com/) with:
+You can install the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("nick-moffitt/y2municipal")
+# install.packages("pak")
+pak::pak("y2analytics/y2municipal")
 ```
 
 
@@ -59,15 +53,15 @@ library(orderlabel)
 library(y2municipal)
 
 # Run a weighted frequencies with unweighted ns
-frequencies <- municipal_data %>%
-  freqs_wuw(s_sex)
+frequencies <- municipal_data |>
+  freqs(s_sex, wt = weights, unweighted_ns = TRUE)
 
 # Run a topline
 DATA_PATH <- '~/Desktop/'
-municipal_data %>% topline(weight_var = weights)
+municipal_data |> topline_freqs(weight_var = weights)
 ```
 
 
 ## Help
-If you have issues using y2municipal, please post your issue on [GitHub](https://github.com/nick-moffitt/y2municipal/issues) along with a minimal reproducible example. We will do our best to address your issues and get them fixed for the next version of y2municipal. 
+If you have issues using y2municipal, please post your issue on [GitHub](https://github.com/y2analytics/y2municipal/issues) along with a minimal reproducible example. We will do our best to address your issues and get them fixed for the next version of y2municipal. 
 
