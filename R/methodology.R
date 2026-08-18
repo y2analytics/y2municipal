@@ -21,7 +21,6 @@
 #' methodology(municipal_data, 30000)
 #'
 
-
 methodology <- function(
   dataset,
   population,
@@ -29,9 +28,9 @@ methodology <- function(
   end_date = EndDate,
   duration = Duration__in_seconds_
 ) {
-  loi_char         <- get_loi(dataset, {{ duration }})
+  loi_char <- get_loi(dataset, {{ duration }})
   field_dates_char <- get_field_dates(dataset, {{ start_date }}, {{ end_date }})
-  moe_char         <- get_moe(dataset, population)
+  moe_char <- get_moe(dataset, population)
 
   cat(c(loi_char, field_dates_char, moe_char), sep = '\n')
 }
@@ -44,17 +43,17 @@ jarvis_sommelier_the_survey <- methodology
 # Private functions -------------------------------------------------------
 get_loi <- function(dataset, duration) {
   duration_q <- rlang::enquo(duration)
-  col_name   <- rlang::as_label(duration_q)
+  col_name <- rlang::as_label(duration_q)
 
   if (!col_name %in% names(dataset)) {
     warning("Could not find ", col_name, " column - skipping LOI")
     return(NULL)
   }
 
-  dur_values            <- dplyr::pull(dataset, !!duration_q)
+  dur_values <- dplyr::pull(dataset, !!duration_q)
   loi_minutes_untrimmed <- (mean(dur_values) / 60) %>% round(1)
-  loi_minutes_trimmed   <- (mean(dur_values, trim = 0.025) / 60) %>% round(1)
-  loi_minutes_median    <- (stats::median(dur_values) / 60) %>% round(1)
+  loi_minutes_trimmed <- (mean(dur_values, trim = 0.025) / 60) %>% round(1)
+  loi_minutes_median <- (stats::median(dur_values) / 60) %>% round(1)
 
   c(
     stringr::str_c('Mean LOI: ', loi_minutes_untrimmed, ' minutes'),
@@ -66,30 +65,44 @@ get_loi <- function(dataset, duration) {
 
 get_moe <- function(dataset, population) {
   sample_size <- dplyr::count(dataset)
-  nadj        <- (population - 1) * sample_size / (population - sample_size)
-  moe         <- ((1.96 * .5) / sqrt(nadj)) %>% round(3)
+  nadj <- (population - 1) * sample_size / (population - sample_size)
+  moe <- ((1.96 * .5) / sqrt(nadj)) %>% round(3)
 
   stringr::str_c('MOE: +/- ', sprintf("%0.2f", moe * 100))
 }
 
 
 get_field_dates <- function(dataset, start_date, end_date) {
-  start_q    <- rlang::enquo(start_date)
-  end_q      <- rlang::enquo(end_date)
+  start_q <- rlang::enquo(start_date)
+  end_q <- rlang::enquo(end_date)
   start_name <- rlang::as_label(start_q)
-  end_name   <- rlang::as_label(end_q)
+  end_name <- rlang::as_label(end_q)
 
   if (!all(c(start_name, end_name) %in% names(dataset))) {
-    warning("Could not find ", start_name, " and/or ", end_name, " columns - skipping fielding dates")
+    warning(
+      "Could not find ",
+      start_name,
+      " and/or ",
+      end_name,
+      " columns - skipping fielding dates"
+    )
     return(NULL)
   }
 
-  start_col   <- dplyr::pull(dataset, !!start_q)
-  end_col     <- dplyr::pull(dataset, !!end_q)
+  start_col <- dplyr::pull(dataset, !!start_q)
+  end_col <- dplyr::pull(dataset, !!end_q)
   start_month <- min(start_col) %>% lubridate::month(label = TRUE)
-  start_day   <- min(start_col) %>% lubridate::day()
-  end_month   <- max(end_col) %>% lubridate::month(label = TRUE)
-  end_day     <- max(end_col) %>% lubridate::day()
+  start_day <- min(start_col) %>% lubridate::day()
+  end_month <- max(end_col) %>% lubridate::month(label = TRUE)
+  end_day <- max(end_col) %>% lubridate::day()
 
-  stringr::str_c("Fielded:", start_month, start_day, "-", end_month, end_day, sep = ' ')
+  stringr::str_c(
+    "Fielded:",
+    start_month,
+    start_day,
+    "-",
+    end_month,
+    end_day,
+    sep = ' '
+  )
 }

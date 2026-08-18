@@ -32,18 +32,15 @@
 #' )
 #' @export
 
-
 topline_freqs <- function(
-    dataset,
-    weight_var,
-    assign_s = NULL,
-    assign_m = NULL,
-    assign_n = NULL,
-    unweighted_ns = TRUE,
-    silently = FALSE
+  dataset,
+  weight_var,
+  assign_s = NULL,
+  assign_m = NULL,
+  assign_n = NULL,
+  unweighted_ns = TRUE,
+  silently = FALSE
 ) {
-
-
   # Check for grouping ------------------------------------------------------
   if (dplyr::is_grouped_df(dataset)) {
     group_variables <-
@@ -74,23 +71,21 @@ topline_freqs <- function(
         .data$label
       )
 
-    grouped_data = TRUE
+    grouped_data <- TRUE
   } else {
-    grouped_data = FALSE
+    grouped_data <- FALSE
   }
-
-
-
 
   # Check for a weight variable ---------------------------------------------
 
   if (
     dataset %>%
-    dplyr::select(
-      {{ weight_var }}
-    ) %>%
-    names() %>%
-    length == 0
+      dplyr::select(
+        {{ weight_var }}
+      ) %>%
+      names() %>%
+      length ==
+      0
   ) {
     dataset <-
       dataset %>%
@@ -101,7 +96,6 @@ topline_freqs <- function(
     weight_var <-
       as.symbol('weights')
   }
-
 
   # Assign Variable types ---------------------------------------------------
 
@@ -143,13 +137,15 @@ topline_freqs <- function(
     names()
 
   if (length(single_vars) + length(multi_vars) + length(num_vars) == 0) {
-    stop('You currently have no variables specified or no variables with proper y2 prefixes. Please either list out the variables you wish to include or check if your variables have the correct prefixes.')
+    stop(
+      'You currently have no variables specified or no variables with proper y2 prefixes. Please either list out the variables you wish to include or check if your variables have the correct prefixes.'
+    )
   }
 
   # warn about labels
   labelled_multi_vars <- purrr::map_lgl(
     .x = dataset %>% dplyr::select(dplyr::all_of(multi_vars)),
-    .f = ~labelled::is.labelled(.x)
+    .f = ~ labelled::is.labelled(.x)
   ) %>%
     sum()
 
@@ -208,7 +204,6 @@ topline_freqs <- function(
       survey_order
     )
 
-
   if (length(unrun_vars) >= 1 & silently == FALSE) {
     message(
       stringr::str_c(
@@ -218,17 +213,13 @@ topline_freqs <- function(
     )
   }
 
-
-
   # Get Topline -------------------------------------------------------------
 
-  if (
-    grouped_data == TRUE
-  ) {
+  if (grouped_data == TRUE) {
     topline_results <-
       purrr::map(
         group_variable_labels,
-        ~combine_grouped_toplines(
+        ~ combine_grouped_toplines(
           dataset_g = dataset,
           single_vars_g = single_vars,
           multi_vars_g = multi_vars,
@@ -257,15 +248,18 @@ topline_freqs <- function(
         multi_ns <- base_ns_multi_grouped(dataset, multi_vars, group_variables)
       )
       suppressMessages(
-        ns_single <- base_ns_single_grouped(dataset, multi_vars, group_variables)
+        ns_single <- base_ns_single_grouped(
+          dataset,
+          multi_vars,
+          group_variables
+        )
       )
     } else {
       multi_ns <- base_ns_multi_grouped(dataset, multi_vars, group_variables)
       ns_single <- base_ns_single_grouped(dataset, multi_vars, group_variables)
-      }
+    }
 
     base_ns <- dplyr::bind_rows(ns_single, multi_ns)
-
   } else {
     topline_results <-
       make_topline(
@@ -305,9 +299,7 @@ get_singles <-
     unweighted.ns,
     single.vars
   ) {
-    if (
-      length(single.vars) > 0
-    ) {
+    if (length(single.vars) > 0) {
       single_select_freqs <-
         df %>%
         dplyr::select(
@@ -329,9 +321,7 @@ get_singles <-
   }
 
 
-
 # Multi Freqs -------------------------------------------------------------
-
 
 get_multis <-
   function(
@@ -341,23 +331,8 @@ get_multis <-
     multi.vars,
     silently
   ) {
-    if (
-      length(multi.vars) > 0
-    ) {
+    if (length(multi.vars) > 0) {
       if (silently == FALSE) {
-      multi_select_freqs <-
-        df %>%
-        dplyr::select(
-          tidyselect::all_of(multi.vars),
-          {{ weight.var }}
-        ) %>%
-        y2clerk::multi_freqs(
-          unweighted_ns = unweighted.ns,
-          wt = {{ weight.var }},
-          prompt = TRUE
-        )
-      } else {
-        suppressMessages(
         multi_select_freqs <-
           df %>%
           dplyr::select(
@@ -369,6 +344,19 @@ get_multis <-
             wt = {{ weight.var }},
             prompt = TRUE
           )
+      } else {
+        suppressMessages(
+          multi_select_freqs <-
+            df %>%
+            dplyr::select(
+              tidyselect::all_of(multi.vars),
+              {{ weight.var }}
+            ) %>%
+            y2clerk::multi_freqs(
+              unweighted_ns = unweighted.ns,
+              wt = {{ weight.var }},
+              prompt = TRUE
+            )
         )
       }
     } else {
@@ -378,9 +366,7 @@ get_multis <-
   }
 
 
-
 # Numeric Freqs -----------------------------------------------------------
-
 
 get_nums <-
   function(
@@ -388,10 +374,8 @@ get_nums <-
     weight.var,
     unweighted.ns,
     num.vars
-  ){
-    if (
-      length(num.vars) > 0
-    ) {
+  ) {
+    if (length(num.vars) > 0) {
       labels_list <-
         df %>%
         dplyr::select(
@@ -404,7 +388,7 @@ get_nums <-
             as.character(),
           label = .data$prompt,
           variable = labels_list %>% names()
-        )  %>%
+        ) %>%
         dplyr::mutate(
           prompt = stringr::str_remove(.data$label, ' - .+') %>%
             stringr::str_trim(),
@@ -422,7 +406,7 @@ get_nums <-
         dplyr::mutate(
           dplyr::across(
             .cols = tidyselect::everything(),
-            .fns = ~forcats::as_factor(.x) %>%
+            .fns = ~ forcats::as_factor(.x) %>%
               as.character() %>%
               as.numeric()
           )
@@ -454,14 +438,14 @@ get_nums <-
 # Topline -----------------------------------------------------------------
 
 make_topline <- function(
-    dataset_top,
-    single_vars_top,
-    multi_vars_top,
-    num_vars_top,
-    weight_var_top,
-    unweighted_ns_top,
-    survey_order_top,
-    silently
+  dataset_top,
+  single_vars_top,
+  multi_vars_top,
+  num_vars_top,
+  weight_var_top,
+  unweighted_ns_top,
+  survey_order_top,
+  silently
 ) {
   single_select_freqs <-
     get_singles(
@@ -506,25 +490,25 @@ make_topline <- function(
 }
 
 
-
-
 # Group_freqs -------------------------------------------------------------
 
 combine_grouped_toplines <- function(
-    dataset_g,
-    single_vars_g,
-    multi_vars_g,
-    num_vars_g,
-    weight_var_g,
-    unweighted_ns_g,
-    survey_order_g,
-    group_variables_g,
-    group_variable_labels_g,
-    silently
+  dataset_g,
+  single_vars_g,
+  multi_vars_g,
+  num_vars_g,
+  weight_var_g,
+  unweighted_ns_g,
+  survey_order_g,
+  group_variables_g,
+  group_variable_labels_g,
+  silently
 ) {
   dataset_g %>%
     dplyr::mutate(
-      group_var_chr = .data[[group_variables_g]] %>% haven::as_factor() %>% as.character()
+      group_var_chr = .data[[group_variables_g]] %>%
+        haven::as_factor() %>%
+        as.character()
     ) %>%
     dplyr::filter(
       .data$group_var_chr == group_variable_labels_g
@@ -540,7 +524,7 @@ combine_grouped_toplines <- function(
     ) %>%
     dplyr::rename_with(
       .cols = c('n', 'result'),
-      ~stringr::str_c(
+      ~ stringr::str_c(
         .,
         group_variable_labels_g,
         sep = ' '
@@ -560,8 +544,8 @@ combine_grouped_toplines <- function(
 # base_ns (ungrouped) ----------------------------------------------------------
 
 base_ns_multi <- function(
-    dataset,
-    multi_vars
+  dataset,
+  multi_vars
 ) {
   datalist <- list()
 
@@ -586,17 +570,19 @@ base_ns_multi <- function(
         -dplyr::ends_with('TEXT')
       ) %>%
       # Following lines filter out rows where none of the questions have been answered
-      dplyr::mutate(ns = rowSums(
-        dplyr::across(
-          .cols = dplyr::starts_with(i),
-          .fns = ~ifelse(
-            is.na(.x),
-            FALSE,
-            TRUE
-          )
-        ),
-        na.rm = TRUE
-      )) %>%
+      dplyr::mutate(
+        ns = rowSums(
+          dplyr::across(
+            .cols = dplyr::starts_with(i),
+            .fns = ~ ifelse(
+              is.na(.x),
+              FALSE,
+              TRUE
+            )
+          ),
+          na.rm = TRUE
+        )
+      ) %>%
       dplyr::filter(
         ns > 0
       ) %>%
@@ -621,21 +607,21 @@ base_ns_multi <- function(
     var_names_multi,
     ns,
     by = 'value'
-    ) %>%
+  ) %>%
     dplyr::select(-'value') %>%
     dplyr::mutate(n = as.numeric(.data$n))
 }
 
 
 base_ns_single <- function(
-    dataset,
-    multi_vars
-    ) {
+  dataset,
+  multi_vars
+) {
   var_names_singles <- dataset %>%
     dplyr::select(-tidyselect::all_of(multi_vars)) %>%
     names()
   datalist <- list()
-  for(i in var_names_singles) {
+  for (i in var_names_singles) {
     var_symbol <- rlang::sym(i)
     data <- dataset %>%
       dplyr::filter(!is.na(!!var_symbol)) %>%
@@ -647,13 +633,12 @@ base_ns_single <- function(
 }
 
 
-
 # base_ns (grouped) ----------------------------------------------------------
 
 base_ns_multi_grouped <- function(
-    dataset,
-    multi_vars,
-    group_variables
+  dataset,
+  multi_vars,
+  group_variables
 ) {
   datalist <- list()
 
@@ -682,17 +667,19 @@ base_ns_multi_grouped <- function(
         -dplyr::ends_with('TEXT')
       ) %>%
       # Following lines filter out rows where none of the questions have been answered
-      dplyr::mutate(ns = rowSums(
-        dplyr::across(
-          .cols = dplyr::starts_with(i),
-          .fns = ~ifelse(
-            is.na(.x),
-            FALSE,
-            TRUE
-          )
-        ),
-        na.rm = TRUE
-      )) %>%
+      dplyr::mutate(
+        ns = rowSums(
+          dplyr::across(
+            .cols = dplyr::starts_with(i),
+            .fns = ~ ifelse(
+              is.na(.x),
+              FALSE,
+              TRUE
+            )
+          ),
+          na.rm = TRUE
+        )
+      ) %>%
       dplyr::filter(
         ns > 0
       ) %>%
@@ -721,7 +708,7 @@ base_ns_multi_grouped <- function(
     colnames(ns) <- c(
       'value',
       stringr::str_c('base_ns ', group_variable_labels)
-      )
+    )
     ns$value <- as.character(ns$value)
   }
   var_names_multi <- multi_vars %>%
@@ -737,25 +724,25 @@ base_ns_multi_grouped <- function(
     dplyr::mutate(
       dplyr::across(
         .cols = tidyselect::starts_with('base_ns'),
-        .fns = ~as.numeric(.x)
+        .fns = ~ as.numeric(.x)
       )
     )
 }
 
 
 base_ns_single_grouped <- function(
-    dataset,
-    multi_vars,
-    group_variables
+  dataset,
+  multi_vars,
+  group_variables
 ) {
   var_names_singles <- dataset %>%
     dplyr::select(
       -tidyselect::all_of(multi_vars),
       -tidyselect::all_of(group_variables)
-      ) %>%
+    ) %>%
     names()
   datalist <- list()
-  for(i in var_names_singles) {
+  for (i in var_names_singles) {
     var_symbol <- rlang::sym(i)
     data <- dataset %>%
       dplyr::group_by(.data[[group_variables]]) %>%
@@ -774,4 +761,3 @@ base_ns_single_grouped <- function(
   }
   ns_single <- dplyr::bind_rows(datalist)
 }
-

@@ -1,4 +1,3 @@
-
 # Error/Warning Tests -----------------------------------------------------
 
 test_that("Error - no variables", {
@@ -10,7 +9,7 @@ test_that("Error - no variables", {
   expect_error(
     topline_appendix(dataset %>% dplyr::select(-dplyr::everything())),
     'You currently have no variables specified OR no variables starting with "oe_" or ending with "_TEXT." Please either list out the variables you wish to include or check if your variables have the correct prefixes/suffixes.'
-    )
+  )
   expect_error(
     topline_appendix(dataset),
     'You currently have no variables specified OR no variables starting with "oe_" or ending with "_TEXT." Please either list out the variables you wish to include or check if your variables have the correct prefixes/suffixes.'
@@ -28,7 +27,6 @@ test_that("Warnings", {
     'You are working with variables that have no labeling. You may want to consider adding a prompt before continuing'
   )
 })
-
 
 
 # Overall Tests -----------------------------------------------------------
@@ -95,7 +93,6 @@ test_that("correct output formatting", {
 })
 
 
-
 # Test Arguments ----------------------------------------------------------
 
 test_that("assign_oe argument", {
@@ -116,7 +113,7 @@ test_that("assign_oe argument", {
   vars_freqd <- topline_appendix(
     dataset,
     assign_oe = c(q1, q2)
-    ) %>%
+  ) %>%
     dplyr::select(variable) %>%
     purrr::as_vector() %>%
     as.character()
@@ -126,4 +123,3 @@ test_that("assign_oe argument", {
     c('oe_var', 'm_var_3_TEXT', 'q1', 'q2')
   )
 })
-
