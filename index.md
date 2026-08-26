@@ -22,6 +22,7 @@ standard processes used in every municipal project of:
 And the development version from [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("nick-moffitt/y2municipal")
 ```
@@ -33,6 +34,7 @@ get a frequencies table with
 [`freqs()`](https://y2analytics.github.io/y2clerk/reference/freqs.html):
 
 ``` r
+
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'

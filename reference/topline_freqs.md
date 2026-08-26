@@ -88,12 +88,7 @@ topline_freqs()
 #> In addition to standard Qualtrics variables, the following variables from your dataset were not included in the topline:
 #> d_yearborn
 #> Variable stem "m_race" successfully freq'd
-#> # m_race_1: Are you: - Selected Choice American Indian / Native American
-#> # m_race_2: Are you: - Selected Choice Asian
-#> # m_race_3: Are you: - Selected Choice Black / African American
-#> # ℹ 4 more questions with labels
-#> # 
-#> # A frequency tibble: 89 × 8
+#> # A tibble: 89 × 8
 #>    variable    prompt                     value label     n stat  result base_ns
 #>    <chr>       <chr>                      <chr> <chr> <dbl> <chr>  <dbl>   <dbl>
 #>  1 s_qualify   Do you currently live in … "1"   Yes      23 perc…   0.23     100
@@ -114,12 +109,7 @@ municipal_data %>%
     weight_var = weights
 )
 #> Variable stem "m_race" successfully freq'd
-#> # m_race_1: Are you: - Selected Choice American Indian / Native American
-#> # m_race_2: Are you: - Selected Choice Asian
-#> # m_race_3: Are you: - Selected Choice Black / African American
-#> # ℹ 4 more questions with labels
-#> # 
-#> # A frequency tibble: 91 × 8
+#> # A tibble: 91 × 8
 #>    variable              prompt           value label     n stat  result base_ns
 #>    <chr>                 <chr>            <chr> <chr> <dbl> <chr>  <dbl>   <dbl>
 #>  1 Duration__in_seconds_ Duration (in se… ""    Dura…   100 mean    0.01     100
